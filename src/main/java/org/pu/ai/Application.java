@@ -1,6 +1,7 @@
 package org.pu.ai;
 
 
+import org.pu.ai.model.Link;
 import org.pu.ai.model.Node;
 
 import java.io.BufferedReader;
@@ -31,14 +32,14 @@ public class Application {
 
         //retrieve and assign link data
         String linkRow;
-        while ((linkRow = nodeReader.readLine()) != null) {
+        while ((linkRow = linkReader.readLine()) != null) {
             // remove trailing semi - colon at the end of the line
             String line = linkRow.substring(0, linkRow.length() - 1);
             String[] data = line.split(", ");
-
+            graph.addLink(data[0], data[1], Boolean.parseBoolean(data[2]), Integer.parseInt(data[3]));
         }
 
-            linkReader.close();
+        linkReader.close();
         nodeReader.close();
     }
 

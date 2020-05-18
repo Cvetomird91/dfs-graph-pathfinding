@@ -5,6 +5,7 @@ import org.pu.ai.model.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Graph {
 
@@ -23,7 +24,7 @@ public class Graph {
         myGraph.put(node.getName(), node);
     }
 
-    public void addLink(String nameOne, String nameTwo, boolean isTwoWay) {
+    public void addLink(String nameOne, String nameTwo, boolean isTwoWay, int length) {
         if(!myGraph.containsKey(nameOne) || !myGraph.containsKey(nameTwo)) {
             System.out.println("Wrong or missing node name!");
             return;
@@ -31,11 +32,11 @@ public class Graph {
 
         Node nodeOne = myGraph.get(nameOne);
         ArrayList<Link> linksOne = nodeOne.getLinks();
-        linksOne.add(new Link(nameTwo,0));
+        linksOne.add(new Link(nameTwo,length));
         //myGraph.get(nameOne).getLinks().add(new Link(nameTwo,0));
 
         if(isTwoWay) {
-            myGraph.get(nameTwo).getLinks().add(new Link(nameOne,0));
+            myGraph.get(nameTwo).getLinks().add(new Link(nameOne,length));
         }
 
     }//end addLink
@@ -44,6 +45,10 @@ public class Graph {
         for(Node node : myGraph.values()) {
             node.reset();
         }
+    }
+
+    public List<Link> getLink(String name) {
+        return myGraph.get(name).getLinks();
     }
 
 }//end class Graph
