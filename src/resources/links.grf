@@ -1,0 +1,11 @@
+sofia, plovdiv, false, 130;
+sofia, pleven, true, 110;
+plovdiv, veliko tyrnovo, false, 125;
+plovdiv, stara zagora, false, 80;
+pleven, veliko tyrnovo, true, 105;
+stara zagora, veliko tyrnovo, false, 85;
+stara zagora, yambol, true, 70;
+veliko tyrnovo, varna, false, 190;
+yambol, burgas, false, 50;
+yambol, varna, true, 145;
+burgas, varna, false, 90;
