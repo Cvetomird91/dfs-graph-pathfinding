@@ -1,7 +1,5 @@
 package org.pu.ai;
 
-
-import org.pu.ai.model.Link;
 import org.pu.ai.model.Node;
 
 import java.io.BufferedReader;
