@@ -32,11 +32,11 @@ public class Graph {
 
         Node nodeOne = myGraph.get(nameOne);
         ArrayList<Link> linksOne = nodeOne.getLinks();
-        linksOne.add(new Link(nameTwo,length));
+        linksOne.add(new Link(nameTwo, length));
         //myGraph.get(nameOne).getLinks().add(new Link(nameTwo,0));
 
         if(isTwoWay) {
-            myGraph.get(nameTwo).getLinks().add(new Link(nameOne,length));
+            myGraph.get(nameTwo).getLinks().add(new Link(nameOne, length));
         }
 
     }//end addLink
