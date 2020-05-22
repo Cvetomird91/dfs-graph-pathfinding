@@ -8,7 +8,7 @@ public class Node {
     private int weight,x,y;
     private ArrayList<Link> links = new ArrayList<>();
 
-    private boolean tested = false;
+    private boolean visited = false;
     private int depth = 0;
     Node parent = null;
 
@@ -29,16 +29,16 @@ public class Node {
         return links;
     }
 
-    public boolean isTested() {
-        return tested;
+    public boolean isVisited() {
+        return visited;
     }
 
-    public void setTested(boolean tested) {
-        this.tested = tested;
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
     public void reset() {
-        tested = false;
+        visited = false;
         depth = 0;
     }
 
@@ -60,6 +60,11 @@ public class Node {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

@@ -1,7 +1,9 @@
 package org.pu.ai;
 
+import org.pu.ai.model.Link;
 import org.pu.ai.model.Node;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DepthFirstSearch implements Searchable {
@@ -15,22 +17,46 @@ public class DepthFirstSearch implements Searchable {
     @Override
     public boolean search(String nameFirst, String nameSecond) {
 
+        graph.graphReset();
         Node nodeOne = graph.getNode(nameFirst);
         Node nodeTwo = graph.getNode(nameSecond);
+        List<Node> pathList = new ArrayList<>();
+
         if(nodeOne == null || nodeTwo == null) {
             System.out.println("Wrong or missing node!");
             return false;
         }
 
+        pathList.add(nodeOne);
+        nodeOne.setVisited(true);
+
+        searchHelper(nodeOne, nodeTwo, pathList);
+
         return false;
     }
 
-    private void dfs(int start) {
+    private void searchHelper(Node source, Node destination,
+                              List<Node> localPathList) {
 
-    }
+        source.setVisited(true);
 
-    private void dfsRecursive(int current, List<Boolean> isVisited) {
-        isVisited.set(current, true);
+        if (source == destination) {
+            System.out.println(localPathList);
+            source.setVisited(false);
+            return;
+        }
+
+        for (Link link : source.getLinks()) {
+            Node currentNode = graph.getNode(link.getRelatedName());
+
+            if (!currentNode.isVisited()) {
+                localPathList.add(currentNode);
+
+                searchHelper(currentNode, destination, localPathList);
+
+                localPathList.remove(currentNode);
+            }
+        }
     }
 
 }
