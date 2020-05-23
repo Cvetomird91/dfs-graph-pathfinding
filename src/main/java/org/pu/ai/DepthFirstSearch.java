@@ -84,6 +84,10 @@ public class DepthFirstSearch implements Searchable {
     public void searchRoute(List<String> routePoints) {
         Boolean hasRoute = search(routePoints.get(0), routePoints.get(routePoints.size()-1));
 
+        if (!hasRoute) {
+            throw new IllegalStateException("no route found!");
+        }
+
         List<String> midPointNames = routePoints.subList(1, routePoints.size()-1);
         List<List<Node>> routesWithMidPoints = new ArrayList<>();
 
@@ -104,7 +108,7 @@ public class DepthFirstSearch implements Searchable {
                                             .min(Comparator.comparingInt(List::size))
                                             .orElse(new ArrayList<>());
 
-        if (hasRoute && !routeWithMidPoints.isEmpty()) {
+        if (hasRoute && !routesWithMidPoints.isEmpty()) {
             System.out.println("A route is present between " + routePoints.get(0) + " and " + routePoints.get(routePoints.size()-1) + "\n"
                                 + "Here is the sequence of nodes and their weights from the first to the final one: \n" + routeWithMidPoints + "\n"
                                 + "The total length of the route from the first node to the final node is : " + calculateRouteLength(routeWithMidPoints));
