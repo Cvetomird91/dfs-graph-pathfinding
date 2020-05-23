@@ -9,30 +9,32 @@ import java.util.List;
 public class DepthFirstSearch implements Searchable {
 
     private Graph graph;
+    List<List<Node>> possibleRoutes;
 
     public DepthFirstSearch(Graph graph) {
         this.graph = graph;
     }
 
     @Override
-    public boolean search(String nameFirst, String nameSecond) {
+    public boolean search(String source, String target) {
 
         graph.graphReset();
-        Node nodeOne = graph.getNode(nameFirst);
-        Node nodeTwo = graph.getNode(nameSecond);
+        Node sourceNode = graph.getNode(source);
+        Node targetNode = graph.getNode(target);
         List<Node> pathList = new ArrayList<>();
+        possibleRoutes = new ArrayList<>();
 
-        if(nodeOne == null || nodeTwo == null) {
+        if(sourceNode == null || targetNode == null) {
             System.out.println("Wrong or missing node!");
             return false;
         }
 
-        pathList.add(nodeOne);
-        nodeOne.setVisited(true);
+        pathList.add(sourceNode);
+        sourceNode.setVisited(true);
 
-        searchHelper(nodeOne, nodeTwo, pathList);
+        searchHelper(sourceNode, targetNode, pathList);
 
-        return false;
+        return !possibleRoutes.isEmpty();
     }
 
     private void searchHelper(Node source, Node destination,
@@ -42,6 +44,8 @@ public class DepthFirstSearch implements Searchable {
 
         if (source == destination) {
             System.out.println(localPathList);
+            //copying the array list with the nodes because of the way java handles reference types
+            possibleRoutes.add(new ArrayList<>(localPathList));
             source.setVisited(false);
             return;
         }
