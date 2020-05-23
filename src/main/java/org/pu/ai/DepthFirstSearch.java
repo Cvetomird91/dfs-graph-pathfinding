@@ -34,6 +34,8 @@ public class DepthFirstSearch implements Searchable {
 
         searchHelper(sourceNode, targetNode, pathList);
 
+        calculateRouteLength(possibleRoutes.get(0));
+
         return !possibleRoutes.isEmpty();
     }
 
@@ -43,7 +45,6 @@ public class DepthFirstSearch implements Searchable {
         source.setVisited(true);
 
         if (source == destination) {
-            System.out.println(localPathList);
             //copying the array list with the nodes because of the way java handles reference types
             possibleRoutes.add(new ArrayList<>(localPathList));
             source.setVisited(false);
@@ -61,6 +62,25 @@ public class DepthFirstSearch implements Searchable {
                 localPathList.remove(currentNode);
             }
         }
+    }
+
+    public Integer calculateRouteLength(List<Node> routeNodes) {
+        Integer length = 0;
+
+        for (int i = 0; i < routeNodes.size(); i++) {
+            Node currentNode = routeNodes.get(i);
+
+            if (i+1 != routeNodes.size()) {
+                String nextNodeName = routeNodes.get(i + 1).getName();
+                String currentNodeName = currentNode.getName();
+                length += currentNode.getLinks()
+                                     .stream()
+                                     .filter( link -> link.getRelatedName().equals(nextNodeName))
+                                     .findFirst().map(Link::getLength).orElse(0);
+            }
+        }
+
+        return length;
     }
 
 }
