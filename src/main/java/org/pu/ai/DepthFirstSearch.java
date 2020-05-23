@@ -4,6 +4,7 @@ import org.pu.ai.model.Link;
 import org.pu.ai.model.Node;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class DepthFirstSearch implements Searchable {
@@ -33,8 +34,6 @@ public class DepthFirstSearch implements Searchable {
         sourceNode.setVisited(true);
 
         searchHelper(sourceNode, targetNode, pathList);
-
-        calculateRouteLength(possibleRoutes.get(0));
 
         return !possibleRoutes.isEmpty();
     }
@@ -72,7 +71,6 @@ public class DepthFirstSearch implements Searchable {
 
             if (i+1 != routeNodes.size()) {
                 String nextNodeName = routeNodes.get(i + 1).getName();
-                String currentNodeName = currentNode.getName();
                 length += currentNode.getLinks()
                                      .stream()
                                      .filter( link -> link.getRelatedName().equals(nextNodeName))
@@ -81,6 +79,36 @@ public class DepthFirstSearch implements Searchable {
         }
 
         return length;
+    }
+
+    public void searchRoute(List<String> routePoints) {
+        Boolean hasRoute = search(routePoints.get(0), routePoints.get(routePoints.size()-1));
+
+        List<String> midPointNames = routePoints.subList(1, routePoints.size()-1);
+        List<List<Node>> routesWithMidPoints = new ArrayList<>();
+
+        for (List<Node> route : possibleRoutes ) {
+            Integer matchingMidpointsCount = 0;
+            for (Node node : route) {
+                if (midPointNames.contains(node.getName())) {
+                    matchingMidpointsCount++;
+                }
+            }
+
+            if (matchingMidpointsCount == midPointNames.size()) {
+                routesWithMidPoints.add(route);
+            }
+        }
+
+        List<Node> routeWithMidPoints = routesWithMidPoints.stream()
+                                            .min(Comparator.comparingInt(List::size))
+                                            .orElse(new ArrayList<>());
+
+        if (hasRoute && !routeWithMidPoints.isEmpty()) {
+            System.out.println("A route is present between " + routePoints.get(0) + " and " + routePoints.get(routePoints.size()-1) + "\n"
+                                + "Here is the sequence of nodes and their weights from the first to the final one: \n" + routeWithMidPoints + "\n"
+                                + "The total length of the route from the first node to the final node is : " + calculateRouteLength(routeWithMidPoints));
+        }
     }
 
 }
